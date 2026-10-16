@@ -1,0 +1,16 @@
+{
+  "last_date": "2025-12-21",
+  "start_date": "2023-01-12",
+  "rows": 1075,
+  "observed_rows": 720,
+  "interpolated_rows": 355,
+  "flow_care_corr": 0.35,
+  "flow_care_corr_obs": 0.22,
+  "recent_28d_care_diff": 3.89,
+  "recent_28d_net_flow": -0.71,
+  "wknd_mean_diff": -45.0,
+  "load_23_24_min": 5664,
+  "load_23_24_max": 11516,
+  "load_2025_min": 1972,
+  "load_2025_max": 6405
+}
