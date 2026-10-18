@@ -82,7 +82,7 @@ def breach_probs(model, preds, thr):
     return np.array(out)
 
 # --------------------------------------------------------------- 2. SIDEBAR
-st.sidebar.title("⚙️ Forecast Controls")
+st.sidebar.title(" Forecast Controls")
 horizon = st.sidebar.slider("Forecast Horizon (Days)", min_value=1, max_value=30, value=14)
 fc_view = fc.iloc[:horizon].copy()
 
@@ -109,7 +109,7 @@ default_model = 'DampedDrift' if 'DampedDrift' in top_group else b['RelMAE'].idx
 models = [m for m in b.index if m in fc.columns]
 
 st.sidebar.markdown("---")
-st.sidebar.subheader("🧠 Model Selection")
+st.sidebar.subheader(" Model Selection")
 active_model = st.sidebar.selectbox(
     "Primary Headline Model",
     models,
@@ -125,7 +125,7 @@ compare_models = st.sidebar.multiselect(
 )
 
 st.sidebar.markdown("---")
-st.sidebar.subheader("⚡ Scenario & Stress Testing")
+st.sidebar.subheader(" Scenario & Stress Testing")
 apply_scenario = st.sidebar.checkbox(
     "Enable & Apply Scenario to Risk KPIs",
     value=False,
@@ -224,10 +224,10 @@ k5.metric(
 
 # ------------------------------------------------------------------- 5. TABS
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📈 Forecast & Risk Analysis",
-    "🔄 Flow Dynamics & Placement Demand",
-    "🧪 Model Diagnostics & Robustness",
-    "📥 Forecast Data & Export"
+    " Forecast & Risk Analysis",
+    " Flow Dynamics & Placement Demand",
+    " Model Diagnostics & Robustness",
+    " Forecast Data & Export"
 ])
 
 with tab1:
@@ -305,7 +305,7 @@ with tab1:
 
     with c_note:
         st.info(
-            f"💡 **Top-Group Model Dynamics:** `DampedDrift`, `Ensemble_Damped`, and `ExpDrift` form the top-performing "
+            f" **Top-Group Model Dynamics:** `DampedDrift`, `Ensemble_Damped`, and `ExpDrift` form the top-performing "
             f"tier (differences of 0.02–0.05 RelMAE are within sampling noise across $n={n_obs_h}$ observed test pairs at $h={h_eval}$d; "
             f"full grid counts: {obs_n_summary}). *DampedDrift* extrapolates recent net growth with damping ($\\phi=0.96$), "
             f"whereas *Ensemble_Damped* blends persistence, damped momentum, and CBP-to-HHS net flow."
@@ -361,14 +361,14 @@ with tab2:
         best_k = min(maes, key=maes.get)
         lines = []
         for k in (7, 14, 28):
-            tag = " ✅ *Lowest MAE*" if k == best_k else ""
+            tag = "  *Lowest MAE*" if k == best_k else ""
             lines.append(
                 f"- **{k}-day pace:** {int(fc_view[f'Discharge_{k}d_Rate'].iloc[-1]):,} children "
                 f"*(MAE ±{int(maes[k])} at h={hd}d){tag}*"
             )
         st.markdown(f"**Cumulative Placement Demand ({horizon}d):**\n" + "\n".join(lines))
         st.caption(
-            f"⚠️ **Flow Accounting Discrepancy:** Computed daily correlation between $\\Delta\\text{{Care Load}}$ and "
+            f" **Flow Accounting Discrepancy:** Computed daily correlation between $\\Delta\\text{{Care Load}}$ and "
             f"$(\\text{{Transfers}} - \\text{{Discharges}})$ is **{flow_corr:.2f}** across the dataset. Over the last 28 days, "
             f"active care load changed by **{recent_care_diff:+.2f}/day** while net CBP transfers minus discharges averaged "
             f"**{recent_net_flow:+.2f}/day**, indicating unrecorded entry/exit pathways or reporting timing lags."
@@ -453,7 +453,7 @@ with tab3:
         3. **Interpolation Autocorrelation:** Linear interpolation across weekends creates artificial 3-day constant-slope segments (**{wknd_slope:+.1f}/day** mean Fri/Sat/Sun change), which likely distorts multi-lag tree splits and regression weights.
         """)
 
-    with st.expander("📋 Methodological Assumptions & Operational Limitations", expanded=False):
+    with st.expander(" Methodological Assumptions & Operational Limitations", expanded=False):
         st.markdown(f"""
         - **Model Selection on Walk-Forward Folds:** Model selection used the same walk-forward folds, so reported skill may be slightly optimistic.
         - **Weekend Forecasts Unvalidated:** Because raw HHS public reporting omits Fridays and Saturdays ({interp_rows:,} interpolated days), out-of-sample evaluation masks interpolated origins/targets. Weekend point forecasts cannot be validated against ground truth.
@@ -476,7 +476,7 @@ with tab4:
     st.dataframe(export_df, width="stretch")
     csv_bytes = export_df.to_csv().encode('utf-8')
     st.download_button(
-        label="📥 Download Forecast Schedule (CSV)",
+        label=" Download Forecast Schedule (CSV)",
         data=csv_bytes,
         file_name=f"HHS_Forecast_{active_model}_{horizon}d.csv",
         mime="text/csv"
